@@ -2,14 +2,17 @@ package routes
 
 import (
 	"github.com/comodo/comodoca-status-api/src/controller"
-	"github.com/comodo/comodoca-status-api/src/middleware"
 	"github.com/gorilla/mux"
 )
 
-func Setup(r *mux.Router) {
-	middleware.SetupBasicAuth()
-	s := r.PathPrefix("/v1/comodoca/registration").Subrouter()
-	s.HandleFunc("/@status", middleware.BasicAuth(controllers.StatusHandler)).Methods("GET")
-	s.HandleFunc("/events", middleware.BasicAuth(controllers.RegistrationHandler)).Methods("POST")
-	s.HandleFunc("/swagger", middleware.BasicAuth(controllers.SwaggerHandler)).Methods("GET")
+//comment
+func SetupStatus(r *mux.Router, prefix string) {
+	s := r.PathPrefix(prefix).Subrouter()
+	s.HandleFunc("/status", controllers.StatusHandler).Methods("GET")
+}
+
+func SetupService(r *mux.Router, prefix string) {
+	s := r.PathPrefix(prefix).Subrouter()
+	s.HandleFunc("/helloworld", controllers.HelloWorldHandler).Methods("GET")
+	s.HandleFunc("/swagger", controllers.SwaggerHandler).Methods("GET")
 }

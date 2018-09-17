@@ -1,19 +1,19 @@
 package controllers
 
 import (
+	"encoding/json"
+	"fmt"
+	"github.com/comodo/comodoca-status-api/common"
 	"net/http"
 )
 
 func StatusHandler(w http.ResponseWriter, _ *http.Request) {
+
+	res := <-common.StatusChannel
+	fmt.Print(&res)
 	w.WriteHeader(http.StatusOK)
-	/*
-	duration := time.Now().Sub(started)
-	if duration.Seconds() > 10 {
-		w.WriteHeader(500)
-		w.Write([]byte(fmt.Sprintf("error: %v", duration.Seconds())))
-	} else {
-		w.WriteHeader(200)
-		w.Write([]byte("ok"))
-	}
-	*/
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(&res)
+	fmt.Println("got res from channel")
+
 }
