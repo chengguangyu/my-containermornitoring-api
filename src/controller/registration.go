@@ -1,9 +1,7 @@
-
-
 package controllers
 
 import (
-"net/http"
+	"net/http"
 )
 
 func RegistrationHandler(w http.ResponseWriter, _ *http.Request) {

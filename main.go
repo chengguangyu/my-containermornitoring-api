@@ -1,18 +1,18 @@
 package main
 
 import (
-	"github.com/hushed/comodoca-status-api/src/routers"
+	"context"
+	"fmt"
 	"net/http"
-	"time"
 	"os"
 	"os/signal"
+	"time"
+
+	"github.com/comodo/comodoca-status-api/src/routers"
 	"github.com/gorilla/mux"
-	"fmt"
-	"context"
 )
 
 func main() {
-
 
 	r := mux.NewRouter()
 

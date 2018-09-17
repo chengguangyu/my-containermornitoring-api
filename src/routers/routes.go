@@ -1,10 +1,9 @@
-
 package routes
 
 import (
-"github.com/gorilla/mux"
-"github.com/hushed/comodoca-status-api/src/controller"
-"github.com/hushed/comodoca-status-api/src/middleware"
+	"github.com/comodo/comodoca-status-api/src/controller"
+	"github.com/comodo/comodoca-status-api/src/middleware"
+	"github.com/gorilla/mux"
 )
 
 func Setup(r *mux.Router) {
