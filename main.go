@@ -42,7 +42,7 @@ func main() {
 			SubComponents:      nil,
 		}
 
-		common.UpdateAndSendStatus(status)
+		common.UpdateAndSendStatus(status, common.StatusChannel)
 		err := statusServer.ListenAndServe()
 		if err != nil {
 			fmt.Print(err.Error())

@@ -5,10 +5,9 @@ import (
 	"runtime"
 )
 
-//global channel to save container status
 var StatusChannel chan *StatusResponse
 
-func UpdateAndSendStatus(status StatusResponse) error {
+func UpdateAndSendStatus(status StatusResponse, statusChannel chan *StatusResponse) error {
 	var err error
 
 	go func() {
@@ -19,11 +18,11 @@ func UpdateAndSendStatus(status StatusResponse) error {
 				}
 			}
 		}()
-		if previousStatus := <-StatusChannel; previousStatus != nil {
-			StatusChannel <- &status
+		if previousStatus := <-statusChannel; previousStatus != nil {
+			statusChannel <- &status
 		} else {
 			//first status
-			StatusChannel <- &status
+			statusChannel <- &status
 		}
 
 		return
