@@ -14,35 +14,35 @@ func StatusHandler(w http.ResponseWriter, _ *http.Request) {
 		if ok {
 			status := *response
 			w.Header().Set("Content-Type", "application/json")
-			statusJson, err := json.Marshal(status)
-			if err != nil {
-				panic(err)
-			}
+			//statusJson, err := json.Marshal(status)
+			//if err != nil {
+			//panic(err)
+			//}
 			if status.Status == "available" {
 				w.WriteHeader(http.StatusOK)
 			} else {
 				w.WriteHeader(http.StatusOK)
 			}
-			//json.NewEncoder(w).Encode(status)
+			json.NewEncoder(w).Encode(status)
 			common.LastStatus = status
-			w.Write(statusJson)
+			//w.Write(statusJson)
 			close(common.StatusChannel)
 		} else {
 			fmt.Print("called")
 
 			w.Header().Set("Content-Type", "application/json")
-			statusJson, err := json.Marshal(common.LastStatus)
+			//statusJson, err := json.Marshal(common.LastStatus)
 
-			if err != nil {
-				panic(err)
-			}
+			//if err != nil {
+			//	panic(err)
+			//}
 			if common.LastStatus.Status == "available" {
 				w.WriteHeader(http.StatusOK)
 			} else {
 				w.WriteHeader(http.StatusOK)
 			}
-			//json.NewEncoder(w).Encode(common.LastStatus)
-			w.Write(statusJson)
+			json.NewEncoder(w).Encode(common.LastStatus)
+			//w.Write(statusJson)
 		}
 
 		return
