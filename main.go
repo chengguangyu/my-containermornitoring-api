@@ -16,7 +16,6 @@ func main() {
 
 	helloWorldRouter := mux.NewRouter()
 	statusRouter := mux.NewRouter()
-	common.StatusChannel = make(chan *common.StatusResponse)
 
 	routes.SetupService(helloWorldRouter, "/v1/comodoca")
 	routes.SetupStatus(statusRouter, "")
@@ -38,7 +37,7 @@ func main() {
 	go func() {
 
 		status := common.StatusResponse{
-			ServiceName:        "Example Services",
+			ServiceName:        "Hello World Example Services",
 			ServiceDescription: "A service that exists so documentation can be written for it.",
 			Status:             "available",
 			SubComponents:      nil,
@@ -48,6 +47,22 @@ func main() {
 		if err != nil {
 			fmt.Print("error")
 		}
+
+		//fake database disconnection
+		go func() {
+			time.Sleep(15 * time.Second)
+			failStatus := common.StatusResponse{
+				ServiceName:        "Database disconnection",
+				ServiceDescription: "It is killed by Bob",
+				Status:             "unavailable",
+				SubComponents:      nil,
+			}
+			err := common.UpdateAndSendStatus(failStatus)
+			if err != nil {
+				fmt.Print("error")
+			}
+		}()
+
 		err = statusServer.ListenAndServe()
 		if err != nil {
 			fmt.Print(err.Error())

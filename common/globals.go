@@ -6,10 +6,11 @@ import (
 )
 
 var StatusChannel chan *StatusResponse
+var LastStatus StatusResponse
 
 func UpdateAndSendStatus(status StatusResponse) error {
 	var err error
-
+	StatusChannel = make(chan *StatusResponse)
 	go func() {
 		defer func() {
 			if r := recover(); r != nil {
