@@ -2,22 +2,23 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/comodo/comodoca-status-api/common"
 	"net/http"
 )
 
-func StatusHandler(w http.ResponseWriter, r *http.Request, statusChan chan *common.StatusResponse) {
-	res := <-statusChan
+func StatusHandler(w http.ResponseWriter, _ *http.Request) {
 
-	fmt.Print(&res)
-
-	for res := range statusChan {
+	for response := range common.StatusChannel {
+		status := *response
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(&res)
+		statusJson, err := json.Marshal(status)
+		if err != nil {
+			panic(err)
+		}
+		//json.NewEncoder(w).Encode(status)
+		w.Write(statusJson)
+		close(common.StatusChannel)
 	}
-
-	//w.Write([]byte("received status"))
 
 }

@@ -43,7 +43,6 @@ func main() {
 			Status:             "available",
 			SubComponents:      nil,
 		}
-		fmt.Print(status)
 
 		err := common.UpdateAndSendStatus(status)
 		if err != nil {

@@ -18,12 +18,17 @@ func UpdateAndSendStatus(status StatusResponse) error {
 				}
 			}
 		}()
-		if previousStatus := <-StatusChannel; &previousStatus != nil {
-			fmt.Print("write into channel1")
-			StatusChannel <- &status
-		} else {
-			//first status
-			fmt.Print("write into channel")
+
+		select {
+		case _, ok := <-StatusChannel:
+			if ok {
+				fmt.Println(" there is a previous channel &previousStatus.ServiceName")
+				StatusChannel <- &status
+			} else {
+				fmt.Println("EmptyChannel")
+			}
+		default:
+			fmt.Println("No value ready, moving on.")
 			StatusChannel <- &status
 		}
 
