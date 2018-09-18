@@ -61,6 +61,19 @@ func main() {
 			if err != nil {
 				fmt.Print("error")
 			}
+
+			time.Sleep(15 * time.Second)
+			recoverStatus := common.StatusResponse{
+				ServiceName:        "Database recovered",
+				ServiceDescription: "It is killed by Bob",
+				Status:             "unavailable",
+				SubComponents:      nil,
+			}
+			err = common.UpdateAndSendStatus(recoverStatus)
+			if err != nil {
+				fmt.Print("error")
+			}
+
 		}()
 
 		err = statusServer.ListenAndServe()
