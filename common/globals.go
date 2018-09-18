@@ -7,7 +7,7 @@ import (
 
 var StatusChannel chan *StatusResponse
 
-func UpdateAndSendStatus(status StatusResponse, statusChannel chan *StatusResponse) error {
+func UpdateAndSendStatus(status StatusResponse) error {
 	var err error
 
 	go func() {
@@ -18,14 +18,14 @@ func UpdateAndSendStatus(status StatusResponse, statusChannel chan *StatusRespon
 				}
 			}
 		}()
-		if previousStatus := <-statusChannel; previousStatus != nil {
-			statusChannel <- &status
+		if previousStatus := <-StatusChannel; &previousStatus != nil {
+			fmt.Print("write into channel1")
+			StatusChannel <- &status
 		} else {
 			//first status
-			statusChannel <- &status
+			fmt.Print("write into channel")
+			StatusChannel <- &status
 		}
-
-		return
 
 	}()
 	return err

@@ -16,6 +16,7 @@ func main() {
 
 	helloWorldRouter := mux.NewRouter()
 	statusRouter := mux.NewRouter()
+	common.StatusChannel = make(chan *common.StatusResponse)
 
 	routes.SetupService(helloWorldRouter, "/v1/comodoca")
 	routes.SetupStatus(statusRouter, "")
@@ -26,6 +27,7 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+
 	statusServer := &http.Server{
 		Handler:      statusRouter,
 		Addr:         ":8081",
@@ -34,16 +36,20 @@ func main() {
 	}
 
 	go func() {
-		common.StatusChannel = make(chan *common.StatusResponse)
+
 		status := common.StatusResponse{
 			ServiceName:        "Example Services",
 			ServiceDescription: "A service that exists so documentation can be written for it.",
 			Status:             "available",
 			SubComponents:      nil,
 		}
+		fmt.Print(status)
 
-		common.UpdateAndSendStatus(status, common.StatusChannel)
-		err := statusServer.ListenAndServe()
+		err := common.UpdateAndSendStatus(status)
+		if err != nil {
+			fmt.Print("error")
+		}
+		err = statusServer.ListenAndServe()
 		if err != nil {
 			fmt.Print(err.Error())
 		}
