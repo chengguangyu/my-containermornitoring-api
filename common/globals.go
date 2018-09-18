@@ -23,13 +23,12 @@ func UpdateAndSendStatus(status StatusResponse) error {
 		select {
 		case _, ok := <-StatusChannel:
 			if ok {
-				fmt.Println(" there is a previous channel &previousStatus.ServiceName")
 				StatusChannel <- &status
 			} else {
 				fmt.Println("EmptyChannel")
 			}
 		default:
-			fmt.Println("No value ready, moving on.")
+
 			StatusChannel <- &status
 		}
 
