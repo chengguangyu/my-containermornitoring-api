@@ -5,6 +5,7 @@ type StatusResponse struct {
 	ServiceDescription string         `json:"description"`
 	Status             string         `json:"status"` //Available, Unavailable, Pending
 	SubComponents      []SubComponent `json:"subComponents"`
+	VersionNumber      string         `json:"version"`
 }
 
 type SubComponent struct {
