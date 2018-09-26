@@ -3,11 +3,8 @@ package stopserver
 import (
 	"context"
 	. "github.com/comodo/comodoca-status-api/startserver"
-	"time"
 )
 
-func StopStatusServer() {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+func StopStatusServer(ctx context.Context) {
 	StatusServer.Shutdown(ctx)
-	defer cancel()
 }
