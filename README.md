@@ -1,1 +1,1 @@
-# comodoca-status-api
+status-api
